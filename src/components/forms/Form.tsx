@@ -7,7 +7,7 @@ import {
 import { FormProps } from "./types";
 import { validationRules } from './validation';
 
-const GenericForm: React.FC<FormProps> = ({
+export const GenericForm: React.FC<FormProps> = ({
   fields,
   onSubmit,
   submitButtonText = "Submit",
@@ -40,7 +40,7 @@ const GenericForm: React.FC<FormProps> = ({
     if (JSON.stringify(formData) !== JSON.stringify(newFormData)) {
       setFormData(newFormData);
     }
-  }, [memoizedInitialValues, fields]);
+  }, [memoizedInitialValues, fields, formData]);
 
   // ✅ Fetch dynamic select/multiselect options and apply default values
   useEffect(() => {
@@ -91,7 +91,7 @@ const GenericForm: React.FC<FormProps> = ({
     };
 
     fetchSelectOptions();
-  }, [fields]);
+  }, [fields, formData]);
 
   const validateField = (name: string, value: any) => {
     const field = fields.find((f) => f.name === name);
@@ -141,7 +141,7 @@ const GenericForm: React.FC<FormProps> = ({
             case "datetime":
             case "textarea":
               return (
-                <Grid size={gridSize} key={field.name}> 
+                <Grid size={gridSize} key={field.name}>
                   <TextField
                     fullWidth
                     label={field.label}
@@ -162,7 +162,7 @@ const GenericForm: React.FC<FormProps> = ({
 
             case "select":
               return (
-                <Grid size={gridSize} key={field.name}> 
+                <Grid size={gridSize} key={field.name}>
                   <FormControl fullWidth size="small">
                     <InputLabel>{field.label}</InputLabel>
                     <Select
@@ -184,7 +184,7 @@ const GenericForm: React.FC<FormProps> = ({
 
             case "multiselect":
               return (
-                <Grid size={gridSize} key={field.name}> 
+                <Grid size={gridSize} key={field.name}>
                   <FormControl fullWidth size="small">
                     <InputLabel>{field.label}</InputLabel>
                     <Select
@@ -215,7 +215,7 @@ const GenericForm: React.FC<FormProps> = ({
 
             case "switch":
               return (
-                <Grid size={gridSize} key={field.name}> 
+                <Grid size={gridSize} key={field.name}>
                   <FormControlLabel
                     control={
                       <Switch
@@ -232,7 +232,7 @@ const GenericForm: React.FC<FormProps> = ({
 
             case "rating":
               return (
-                <Grid size={gridSize} key={field.name}> 
+                <Grid size={gridSize} key={field.name}>
                   <Rating
                     value={formData[field.name] ?? 0}
                     onChange={(_, v) => handleChange(field.name, v, field.onChange)}
@@ -267,4 +267,3 @@ const GenericForm: React.FC<FormProps> = ({
   );
 };
 
-export default GenericForm;

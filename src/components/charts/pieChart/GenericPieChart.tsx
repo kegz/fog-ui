@@ -5,11 +5,11 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import DownloadIcon from '@mui/icons-material/Download';
 import { statusSummaryProps } from './type';
 
-const GenericPieChart: React.FC<statusSummaryProps> = ({ title, data, onRefresh, onExportCsv, }) => {
+export const GenericPieChart: React.FC<statusSummaryProps> = ({ title, data, onRefresh, onExportCsv, }) => {
   return (
     <>
       <Typography variant="h5" sx={{ mb: 2 }}>{title}</Typography>
-      <Box sx={{height: 200 }}>
+      <Box sx={{ height: 200 }}>
         <ResponsiveContainer>
           <PieChart>
             <Pie data={data} dataKey="count" nameKey="status" outerRadius={80} labelLine={false} >
@@ -43,4 +43,3 @@ const GenericPieChart: React.FC<statusSummaryProps> = ({ title, data, onRefresh,
   );
 };
 
-export default GenericPieChart;

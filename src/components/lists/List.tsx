@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
@@ -16,8 +16,8 @@ interface GenericListProps {
     items: ListItemData[];
 }
 
-const GenericList: React.FC<GenericListProps> = ({ items }) => {
-  const navigate = useNavigate();
+export const GenericList: React.FC<GenericListProps> = ({ items }) => {
+    const navigate = useNavigate();
 
     const handleItemClick = (link?: string) => {
         if (link) {
@@ -40,4 +40,3 @@ const GenericList: React.FC<GenericListProps> = ({ items }) => {
     );
 };
 
-export default GenericList;

@@ -9,20 +9,20 @@ interface CardViewProps {
     onViewClick: () => void;
 }
 
-const CardView: React.FC<CardViewProps> = ({ title, description, onViewClick, component }) => {
+export const CardView: React.FC<CardViewProps> = ({ title, description, onViewClick, component }) => {
     return (
         <Card sx={{ maxWidth: 345, borderRadius: '12px', boxShadow: 3 }}>
-            {title ? 
+            {title ?
                 <CardContent><Typography variant="h5" component="div" fontWeight="bold">{title}</Typography></CardContent>
-            : null }
+                : null}
 
-            {description ? 
+            {description ?
                 <CardContent><Typography variant="body2" color="text.secondary">{description}</Typography></CardContent>
-            : null }
+                : null}
 
-            {component ? 
+            {component ?
                 <CardContent>{component}</CardContent>
-            : null }
+                : null}
 
             <Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
                 <Button variant="contained" onClick={onViewClick} sx={{ width: '100%' }}>View</Button>
@@ -30,5 +30,3 @@ const CardView: React.FC<CardViewProps> = ({ title, description, onViewClick, co
         </Card>
     );
 };
-
-export default CardView;

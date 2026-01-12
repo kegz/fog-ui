@@ -1,7 +1,7 @@
 // src/components/CardListContainer.tsx
 import React from 'react';
 import { Grid } from '@mui/material';
-import CardView from './CardView';
+import { CardView } from './CardView';
 
 export interface CardItem {
     id: string | number;
@@ -15,7 +15,7 @@ interface CardListContainerProps {
     cards: CardItem[];
 }
 
-const CardListContainer: React.FC<CardListContainerProps> = ({ cards }) => {
+export const CardListContainer: React.FC<CardListContainerProps> = ({ cards }) => {
     return (
         <Grid container spacing={3} justifyContent="center">
             {cards.map((card) => (
@@ -32,4 +32,3 @@ const CardListContainer: React.FC<CardListContainerProps> = ({ cards }) => {
     );
 };
 
-export default CardListContainer;

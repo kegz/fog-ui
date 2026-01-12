@@ -3,7 +3,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import GenericForm from "../forms/Form";
+import { GenericForm } from "../forms/Form";
 import { FormField } from "../forms/types";
 
 export interface PermissionCardProps {
@@ -15,8 +15,8 @@ export interface PermissionCardProps {
   };
 }
 
-const PermissionCard: React.FC<PermissionCardProps> = ({ data }) => {
-  const handleFormSubmit = async (submittedData: any) => {submittedData.preventDefault();};
+export const PermissionCard: React.FC<PermissionCardProps> = ({ data }) => {
+  const handleFormSubmit = async (submittedData: any) => { submittedData.preventDefault(); };
 
   const actionFields: FormField[] = data.actions.map((action) => ({
     name: action,
@@ -33,4 +33,3 @@ const PermissionCard: React.FC<PermissionCardProps> = ({ data }) => {
   );
 };
 
-export default PermissionCard;

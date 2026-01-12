@@ -11,7 +11,7 @@ interface CircularProgressListProps {
     items: ProgressItem[];
 }
 
-const CircularProgressList: React.FC<CircularProgressListProps> = ({ items }) => {
+export const CircularProgressList: React.FC<CircularProgressListProps> = ({ items }) => {
     return (
         <Box>
             {items.map((item, index) => (
@@ -34,4 +34,3 @@ const CircularProgressList: React.FC<CircularProgressListProps> = ({ items }) =>
     );
 };
 
-export default CircularProgressList;

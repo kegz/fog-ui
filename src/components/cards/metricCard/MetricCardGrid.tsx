@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { colorMap, MetricCardGridProps } from "./MetricCardType";
 import { metricCardComponentStyle } from "../../../style/muiComponentStyles/sharedComponentStyles";
 
-const MetricCardGrid: React.FC<MetricCardGridProps> = ({ data }) => {
+export const MetricCardGrid: React.FC<MetricCardGridProps> = ({ data }) => {
   const theme = useTheme();
   const styles = metricCardComponentStyle(theme);
 
@@ -46,4 +46,3 @@ const MetricCardGrid: React.FC<MetricCardGridProps> = ({ data }) => {
   );
 };
 
-export default MetricCardGrid;

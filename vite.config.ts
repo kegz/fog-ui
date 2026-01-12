@@ -20,4 +20,10 @@ export default defineConfig({
 		sourcemap: true,
 		emptyOutDir: true,
 	},
+	test: {
+		environment: 'jsdom',
+		globals: true,
+		setupFiles: 'src/setupTests.ts',
+		include: ['src/**/*.test.{ts,tsx}'],
+	}
 });

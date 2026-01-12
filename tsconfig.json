@@ -16,9 +16,6 @@
 			"vite/client"
 		]
 	},
-	"files": [
-		"node_modules"
-	],
 	"include": [
 		"src/**/*"
 	],

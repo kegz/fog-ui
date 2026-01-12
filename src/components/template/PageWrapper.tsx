@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {Box, Toolbar, Typography, Drawer, List, ListItem, ListItemButton, ListItemText, useTheme, } from "@mui/material";
+import { Box, Toolbar, Typography, Drawer, List, ListItem, ListItemButton, ListItemText, useTheme, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Topbar from "./Topbar";
+import { Topbar } from "./Topbar";
 import { MenuItem } from "./types";
 import { pageContainer, DrawerContainer } from "../../style/muiComponentStyles/containerStyles";
-import GenericForm from "../forms/Form";
+import { GenericForm } from "../forms/Form";
 import { FormField } from "../forms/types";
 import { useResolvedMenu } from "../../hooks/useResolvedMenu"; // ✅ NEW
 
@@ -13,7 +13,7 @@ interface PageWrapperProps {
   menuItems: Record<string, MenuItem[]>;
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, menuItems }) => {
+export const PageWrapper: React.FC<PageWrapperProps> = ({ children, menuItems }) => {
   const theme = useTheme();
   const styles = pageContainer(theme);
   const drawerStyles = DrawerContainer(theme);
@@ -89,4 +89,3 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, menuItems }) => {
   );
 };
 
-export default PageWrapper;

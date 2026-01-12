@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tabs, Tab, Box, Typography } from '@mui/material';
 import { GenericTabsProps } from './types';
 
-const GenericTabs: React.FC<GenericTabsProps> = ({ tabsData }) => {
+export const GenericTabs: React.FC<GenericTabsProps> = ({ tabsData }) => {
     const [activeTab, setActiveTab] = useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -26,4 +26,4 @@ const GenericTabs: React.FC<GenericTabsProps> = ({ tabsData }) => {
     );
 };
 
-export default GenericTabs;
+

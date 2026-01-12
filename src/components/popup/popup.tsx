@@ -15,12 +15,12 @@ interface PopupProps {
     open: boolean;
     onClose: () => void;
     component: React.ReactNode;
-    buttons?: { text: string; onClick: () => void; }[];
+    buttons?: { text: string; onClick: () => void }[];
 }
 
-const Popup: React.FC<PopupProps> = ({ title, open, onClose, component, buttons }) => {
+export const Popup: React.FC<PopupProps> = ({ title, open, onClose, component, buttons }) => {
     return (
-        <Dialog open={open} onClose={onClose}  fullWidth maxWidth="sm" sx={{ '& .MuiDialog-paper': { borderRadius: '12px' } }} >
+        <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" sx={{ '& .MuiDialog-paper': { borderRadius: '12px' } }} >
             <DialogTitle sx={{ m: 0, p: 2 }}>
                 {title}
                 <IconButton aria-label="close" onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8, }} ><CloseIcon /></IconButton>
@@ -37,4 +37,3 @@ const Popup: React.FC<PopupProps> = ({ title, open, onClose, component, buttons 
     );
 };
 
-export default Popup;

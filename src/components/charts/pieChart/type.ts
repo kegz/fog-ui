@@ -1,4 +1,5 @@
 export interface chartData {
+  [key: string]: any;
   status: string;
   count: number;
   percentage: number;

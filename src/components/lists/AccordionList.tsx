@@ -13,7 +13,7 @@ interface AccordionListProps {
     items: AccordionItem[];
 }
 
-const AccordionList: React.FC<AccordionListProps> = ({ items }) => {
+export const AccordionList: React.FC<AccordionListProps> = ({ items }) => {
     return (
         items.map((item) => (
             <Accordion key={item.id}>
@@ -27,4 +27,3 @@ const AccordionList: React.FC<AccordionListProps> = ({ items }) => {
     );
 };
 
-export default AccordionList;

@@ -1,9 +1,9 @@
 import React from "react";
-import { LineChart,Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Box, Typography, Grid, Divider } from "@mui/material";
 import { TrendAnalyticsChartProps } from "./types";
 
-const TrendAnalyticsChart: React.FC<TrendAnalyticsChartProps> = ({ chartData }) => {
+export const TrendAnalyticsChart: React.FC<TrendAnalyticsChartProps> = ({ chartData }) => {
   const { title, xAxisKey, data, series, metrics } = chartData;
 
   return (
@@ -40,4 +40,3 @@ const TrendAnalyticsChart: React.FC<TrendAnalyticsChartProps> = ({ chartData }) 
   );
 };
 
-export default TrendAnalyticsChart;

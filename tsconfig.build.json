@@ -9,6 +9,15 @@
 		"stripInternal": true
 	},
 	"include": [
-		"src"
+		"src/index.ts",
+		"src/theme/**/*"
+	],
+	"exclude": [
+		"**/__tests__/**",
+		"**/*.test.*",
+		"**/*.spec.*",
+		"**/*.stories.*",
+		"dist",
+		"node_modules"
 	]
 }

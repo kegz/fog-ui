@@ -16,17 +16,17 @@ export interface UserGroupCardProps {
   allowUpdate?: boolean;
 }
 
-const UserGroupCard: React.FC<UserGroupCardProps> = ({_id, name, description, permissionsList, allowUpdate, allowDelete }) => {
-  console.log('id from UserGroupCard ',_id);
+export const UserGroupCard: React.FC<UserGroupCardProps> = ({ _id, name, description, permissionsList, allowUpdate, allowDelete }) => {
+  console.log('id from UserGroupCard ', _id);
   const Delete: React.ReactNode = (
-    <IconButton color="error" onClick={() => {}}>
-        <DeleteIcon />
+    <IconButton color="error" onClick={() => { }}>
+      <DeleteIcon />
     </IconButton>
   );
 
   const Update: React.ReactNode = (
-    <IconButton color="primary" onClick={() => {}}>
-        <EditIcon />
+    <IconButton color="primary" onClick={() => { }}>
+      <EditIcon />
     </IconButton>
   );
 
@@ -36,14 +36,13 @@ const UserGroupCard: React.FC<UserGroupCardProps> = ({_id, name, description, pe
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header" >{name.replace("_", " ")} {allowDelete && Delete} {allowUpdate && Update}
       </AccordionSummary>
       <AccordionDetails>
-        {description}<br/><br/>
-        List of Permissions: <br/>
+        {description}<br /><br />
+        List of Permissions: <br />
         {permissionsList.length > 0 ? (
-            permissionsList.map((permission) => (permission + ', '))
+          permissionsList.map((permission) => (permission + ', '))
         ) : (<p>No Permissions Assigned.</p>)}
       </AccordionDetails>
     </Accordion>
   );
 };
 
-export default UserGroupCard;
