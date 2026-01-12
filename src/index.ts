@@ -35,3 +35,6 @@ export { PermissionCard } from './components/cards/PermissionCard';
 export { UserGroupCard } from './components/cards/UserGroupCard';
 export { MetricCardGrid } from './components/cards/metricCard/MetricCardGrid';
 
+// Export shared types
+export * from './types';
+

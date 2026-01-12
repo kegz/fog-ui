@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { renderWithProviders, screen } from '../../test/utils';
 import userEvent from '@testing-library/user-event';
+import { render, fireEvent } from '@testing-library/react';
 import { ThemeContext } from '../ThemeContext';
 
 const Consumer = () => {
@@ -76,8 +77,6 @@ test('ThemeContext default functions are callable without provider', () => {
 	};
 
 	// use testing-library's render directly so we do NOT get the provider wrapper
-	const { getByText } = require('@testing-library/react');
-	const { render, fireEvent } = getByText ? require('@testing-library/react') : require('@testing-library/react');
 	const utils = render(<NoProviderConsumer />);
 	expect(utils.getByText('#1976D2')).toBeInTheDocument();
 	fireEvent.click(utils.getByText('call'));

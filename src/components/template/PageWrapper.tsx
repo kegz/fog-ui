@@ -16,7 +16,7 @@ interface PageWrapperProps {
 export const PageWrapper: React.FC<PageWrapperProps> = ({ children, menuItems }) => {
   const theme = useTheme();
   const styles = pageContainer(theme);
-  const drawerStyles = DrawerContainer(theme);
+  const drawerStyles = DrawerContainer();
   const navigate = useNavigate();
 
   const [pageTitle, setPageTitle] = useState(
