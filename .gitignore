@@ -1,5 +1,7 @@
 node_modules
 dist
+coverage
+scripts
 .vite
 .DS_Store
 *.log
