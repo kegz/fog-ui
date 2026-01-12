@@ -1,16 +1,8 @@
-import React, { ReactNode } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
-import { ThemeContextProvider } from '../context/ThemeContext';
-import { MemoryRouter } from 'react-router-dom';
-
-const Providers = ({ children }: { children?: ReactNode }) => (
-	<ThemeContextProvider>
-		<MemoryRouter>{children}</MemoryRouter>
-	</ThemeContextProvider>
-);
+import React from 'react';
+import { render, RenderOptions, screen, within, act, waitFor } from '@testing-library/react';
+import Providers from './providers';
 
 const renderWithProviders = (ui: React.ReactElement, options?: RenderOptions) =>
-	render(ui, { wrapper: Providers, ...options });
+	render(ui, { wrapper: Providers as any, ...options });
 
-export * from '@testing-library/react';
-export { renderWithProviders };
+export { renderWithProviders, render, screen, within, act, waitFor };

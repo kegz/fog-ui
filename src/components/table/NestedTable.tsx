@@ -3,8 +3,6 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Collapse,
-  Box,
 } from "@mui/material";
 import { DataLoading } from "./DataLoading";
 import { NoDataTableRow } from "./NoDataTableRow";
@@ -14,13 +12,12 @@ import { TableHeader } from "./TableHeader";
 export function NestedTable<T>({
   columns,
   nestedConfig,
-  isOpen,
   item,
   emptyMessage = "No records found.",
 }: Readonly<NestedTableProps<T>>) {
   if (!nestedConfig) return null;
   const nestedData = nestedConfig.getNestedData(item);
-  
+
   if (nestedConfig.loading) {
     return <DataLoading columns={columns} />;
   } else if (nestedData.length === 0) {

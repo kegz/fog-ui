@@ -32,21 +32,13 @@ export default [
 		},
 		rules: {
 			...reactHooks.configs.recommended.rules,
-			/* 			"react-refresh/only-export-components": [
-							"warn",
-							{ allowConstantExport: true },
-						], */
-			// TEMP: allow `any` while you migrate types
+			"react-refresh/only-export-components": [
+				"warn",
+				{ allowConstantExport: true },
+			],
 			"@typescript-eslint/no-explicit-any": "off",
-
-			// TEMP: allow unused imports/vars while refactoring
-			"@typescript-eslint/no-unused-vars": "off",
-
-			// TEMP: stop fast-refresh noise in a library repo
-			"react-refresh/only-export-components": "off",
-
-			"react-hooks/exhaustive-deps": "off",
 			"@typescript-eslint/ban-ts-comment": "off",
+			"@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
 		},
 	},
 	{

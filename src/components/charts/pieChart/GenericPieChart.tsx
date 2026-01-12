@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Grid, IconButton, Paper } from '@mui/material';
+import { Box, Typography, Grid, IconButton } from '@mui/material';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DownloadIcon from '@mui/icons-material/Download';

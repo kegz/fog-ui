@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useMemo, ReactNode, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -9,8 +10,8 @@ interface ThemeContextProps {
 }
 
 export const ThemeContext = createContext<ThemeContextProps>({
-    toggleTheme: () => {},
-    changePrimaryColor: () => {},
+    toggleTheme: () => { },
+    changePrimaryColor: () => { },
     mode: 'light',
     primaryColor: '#1976D2'
 });
@@ -22,9 +23,9 @@ export const ThemeContextProvider: React.FC<{ children: ReactNode }> = ({ childr
     const [mode, setMode] = useState<'light' | 'dark'>(storedMode || 'light');
     const [primaryColor, setPrimaryColor] = useState<string>(storedColor);
 
-    useEffect(() => {localStorage.setItem('themeMode', mode);}, [mode]);
+    useEffect(() => { localStorage.setItem('themeMode', mode); }, [mode]);
 
-    useEffect(() => {localStorage.setItem('primaryColor', primaryColor);}, [primaryColor]);
+    useEffect(() => { localStorage.setItem('primaryColor', primaryColor); }, [primaryColor]);
 
     const theme = useMemo(
         () =>

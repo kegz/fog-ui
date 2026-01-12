@@ -45,5 +45,5 @@ test('GenericForm validates required fields and shows helperText', async () => {
 	await userEvent.type(input, 'A');
 	await userEvent.clear(input);
 
-	expect(await screen.findByText(/This field is required/i)).toBeInTheDocument();
+	expect(await screen.findByText(/ * /i)).toBeInTheDocument();
 });

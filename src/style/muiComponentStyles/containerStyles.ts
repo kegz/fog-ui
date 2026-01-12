@@ -8,7 +8,7 @@ export const pageContainer = (theme: Theme) => ({
 	},
 });
 
-export const DrawerContainer = (theme: Theme) => ({
+export const DrawerContainer = () => ({
 	root: {
 		width: 300,
 		flexShrink: 0,

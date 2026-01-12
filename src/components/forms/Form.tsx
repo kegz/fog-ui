@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextField, Button, Select, MenuItem,
   FormControl, InputLabel, Switch, FormControlLabel, Rating,
@@ -16,7 +16,7 @@ export const GenericForm: React.FC<FormProps> = ({
   customButtons = [],
   initialValues = {}
 }) => {
-  const memoizedInitialValues = useMemo(() => initialValues, [JSON.stringify(initialValues)]);
+  const memoizedInitialValues = initialValues;
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const [formData, setFormData] = useState<Record<string, any>>(() => {
     return fields.reduce((acc, field) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -16,7 +16,15 @@ export interface PermissionCardProps {
 }
 
 export const PermissionCard: React.FC<PermissionCardProps> = ({ data }) => {
-  const handleFormSubmit = async (submittedData: any) => { submittedData.preventDefault(); };
+  const handleFormSubmit = async (submittedData: any) => {
+    // support either an event or form data object
+    if (submittedData && typeof submittedData.preventDefault === 'function') {
+      submittedData.preventDefault();
+      return;
+    }
+    // if we receive form data, no-op for now
+    return;
+  };
 
   const actionFields: FormField[] = data.actions.map((action) => ({
     name: action,

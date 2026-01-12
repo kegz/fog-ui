@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IconButton } from "@mui/material";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -19,13 +19,13 @@ export interface UserGroupCardProps {
 export const UserGroupCard: React.FC<UserGroupCardProps> = ({ _id, name, description, permissionsList, allowUpdate, allowDelete }) => {
   console.log('id from UserGroupCard ', _id);
   const Delete: React.ReactNode = (
-    <IconButton color="error" onClick={() => { }}>
+    <IconButton aria-label="delete" color="error" onClick={() => { }}>
       <DeleteIcon />
     </IconButton>
   );
 
   const Update: React.ReactNode = (
-    <IconButton color="primary" onClick={() => { }}>
+    <IconButton aria-label="update" color="primary" onClick={() => { }}>
       <EditIcon />
     </IconButton>
   );
