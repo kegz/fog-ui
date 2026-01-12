@@ -12,7 +12,9 @@ export default defineConfig({
 			fileName: (format) => (format === "es" ? "index.mjs" : "index.cjs"),
 		},
 		rollupOptions: {
-			external: ["react", "react-dom"],
+			// Ensure React and all React subpath imports (jsx runtime, dev runtime)
+			// are treated as externals so they are not bundled into the library.
+			external: [/^react($|\/)/, /^react-dom($|\/)/],
 			output: {
 				exports: "named",
 			},

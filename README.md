@@ -182,6 +182,42 @@ If you see type resolution issues:
 - Ensure your bundler supports ESM packages correctly
 
 
+### Types — how to import
+fog-ui exposes TypeScript types from the package root so you can import them directly from `fog-ui`.
+
+Examples:
+
+- Import a type-only symbol:
+
+```ts
+import type { TableRowData } from 'fog-ui';
+
+function handleRow(row: TableRowData) { /* ... */ }
+```
+
+- Import types alongside runtime values (use `import type` when possible to avoid pulling runtime code):
+
+```ts
+import { DataTable } from 'fog-ui';
+import type { DataTableProps } from 'fog-ui';
+
+const props: DataTableProps = { /* ... */ };
+<DataTable {...props} />
+```
+
+- If you only need several types, prefer named type imports to keep imports minimal:
+
+```ts
+import type { TabsProps, TabItem } from 'fog-ui';
+```
+
+Notes:
+
+- The package publishes `.d.ts` declarations under `dist/` and `package.json` `types` points to `./dist/index.d.ts`.
+- When using `tsc` or IDEs like VS Code, TypeScript will resolve types from the installed package automatically.
+- Prefer `import type { ... } from 'fog-ui'` to ensure imports are erased at compile time and do not pull runtime code into your bundle.
+
+
 
 ## 7) Common pitfalls
 Components render but styles look wrong
@@ -207,6 +243,54 @@ After integration, verify:
 [] Theme styles apply correctly
 [] If using template/navigation: routing works (links, page wrapper)
 [] No duplicate React or Emotion versions installed
+
+
+## Local development and installing from local source
+If you are testing `fog-ui` from a local checkout (for example using a `file:..` dependency in a consumer), the consumer bundler can accidentally pre-bundle the library and include React internals. To avoid duplicate React runtimes in the consumer app, follow one of these recommended workflows.
+
+- Build before installing (recommended when using `file:`):
+
+```powershell
+cd path/to/fog-ui
+npm run build
+cd path/to/consumer-app
+npm install ../fog-ui
+```
+
+- Use `npm pack` to create a tarball and install that in the consumer (reproducible and closer to how npm publishes):
+
+```powershell
+cd path/to/fog-ui
+npm pack
+cd path/to/consumer-app
+npm install ../fog-ui-<version>.tgz
+```
+
+- If you prefer to keep a live link to your local package during development, instruct consumer Vite to avoid pre-bundling the package and to treat React as external. Add or update `consumer-app/vite.config.ts` with:
+
+```ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  optimizeDeps: {
+    // Prevent Vite from pre-bundling the local package and React
+    exclude: ['fog-ui', 'react', 'react-dom']
+  },
+  build: {
+    rollupOptions: {
+      // Ensure React and react-dom (and their subpaths) remain external
+      external: [/^react($|\/)/, /^react-dom($|\/)/]
+    }
+  }
+})
+```
+
+Notes:
+- Installing via `file:..` does not automatically run a library build for you — run `npm run build` in the library first or use `npm pack`.
+- Adding a `prepare` script in `fog-ui` (for example, `"prepare": "npm run build"`) helps ensure builds run for some install scenarios (notably git-based installs), but it may not run for plain `file:` installs; the explicit build or pack workflows above are more reliable for local testing.
+
 
 
 
