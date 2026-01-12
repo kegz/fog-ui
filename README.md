@@ -1,93 +1,121 @@
 # fog-ui
 
-fog-ui is a small React + TypeScript component library built on Material UI (MUI).
-It provides shared UI primitives and a centralized theming system that can be
-reused across multiple React applications.
+fog-ui is an open-source React component library built on top of Material UI (MUI).
+It provides reusable UI components and a shared theming system intended for teams
+that build and maintain multiple React applications.
 
-## Key points
-
-- Bundled with Vite in library mode (ESM + CJS)
-- Generates TypeScript declaration files
-- `react` and `react-dom` are peerDependencies (not bundled)
-- Exposes a centralized theme and `ThemeContextProvider`
-- Components are exported as named exports from the package entry
-
-## Install
-
-Install `fog-ui` and ensure React 18+ is available in the consuming app.
-
-```bash
-npm install fog-ui
-# or
-yarn add fog-ui
-```
-
-Peer dependencies (install in your app):
-
-```bash
-npm install react react-dom @mui/material @emotion/react @emotion/styled
-```
-
-## Usage
-
-Wrap your application with the provider and use components by name:
-
-```tsx
-import React from 'react';
-import { ThemeContextProvider, createFogTheme } from 'fog-ui';
-import { PageWrapper, DataTable } from 'fog-ui';
-
-const App = () => (
-	<ThemeContextProvider>
-		<PageWrapper menuItems={{}}>
-			<DataTable />
-		</PageWrapper>
-	</ThemeContextProvider>
-);
-
-export default App;
-```
-
-Override or extend the theme using MUI's theming APIs:
-
-```tsx
-import { createFogTheme } from 'fog-ui';
-import { ThemeProvider } from '@mui/material/styles';
-
-const theme = createFogTheme({ palette: { primary: { main: '#ff5722' } } });
-
-// Wrap with MUI ThemeProvider if you want to apply custom theme
-<ThemeProvider theme={theme}>{/* App */}</ThemeProvider>;
-```
-
-## Building locally
-
-To build the package locally (produces `dist/`):
-
-```bash
-npm install
-npm run build
-```
-
-## Publishing
-
-The package is configured to publish `dist/` with `main`, `module`, and `types` fields.
-Before publishing, ensure:
-
-- `package.json` version is bumped
-- `peerDependencies` are correct
-- `dist/` contains the built bundles and declaration files
-
-Publish with:
-
-```bash
-npm publish --access public
-```
-
-## Contributing
-
-Please open issues or pull requests. Follow repository linting rules and run `npm run build` before creating a PR.
+This project is community-driven and welcomes contributions of all kinds:
+code, documentation, tests, ideas, and constructive feedback.
 
 ---
 
-For more examples and API details, consult the source files under `src/components` and `src/theme`.
+## Why fog-ui exists
+
+Many teams use MUI successfully but end up duplicating:
+- the same card patterns
+- the same table layouts
+- the same form abstractions
+- the same theme logic
+
+fog-ui exists to centralize those patterns into a **tested, typed, reusable library**
+without locking consumers into a rigid design system.
+
+Core goals:
+- Consistency across applications
+- Explicit, predictable APIs
+- Strong test coverage
+- Minimal magic
+
+---
+
+## Project values
+
+We try to optimize for the following:
+
+- **Clarity over cleverness**  
+  Code should be readable first, impressive second.
+
+- **Composition over inheritance**  
+  Prefer composing MUI primitives instead of deep abstractions.
+
+- **Stability over novelty**  
+  This is a UI foundation, not a playground for trends.
+
+- **Respect for contributors’ time**  
+  Clear structure, tests, and documentation matter.
+
+---
+
+## Who this project is for
+
+fog-ui is a good fit if you:
+- already use MUI
+- want shared UI foundations across apps
+- care about test coverage and type safety
+- prefer explicit APIs over hidden behavior
+
+fog-ui is *not* intended to:
+- replace MUI
+- provide a full design system with opinions on branding
+- support multiple styling frameworks
+
+---
+
+## Getting involved
+
+### Ways to contribute
+
+You do **not** need to write new components to contribute.
+
+Valuable contributions include:
+- improving documentation or examples
+- adding or refining tests
+- fixing bugs
+- improving types
+- proposing API improvements
+- reporting issues with clear reproduction steps
+
+### Before opening a PR
+
+Please ensure:
+- the code builds locally
+- tests pass
+- new behavior is covered by tests
+- public APIs are documented or self-explanatory
+
+We strongly prefer **small, focused pull requests**.
+
+---
+
+## Communication & conduct
+
+- Be respectful and constructive
+- Assume good intent
+- Disagree with ideas, not people
+
+Harassment, hostility, or dismissive behavior will not be tolerated.
+
+---
+
+## Project status
+
+fog-ui is actively developed and already used in real projects.
+APIs may evolve, but stability and backwards compatibility are taken seriously.
+
+Breaking changes will be documented clearly.
+
+---
+
+## License
+
+fog-ui is released under the Apache-2.0 License.
+See the LICENSE file for details.
+
+---
+
+## A note from the maintainer
+
+This project exists because maintaining shared UI code *well* is hard.
+If fog-ui saves you time or reduces duplication, that’s a success.
+
+If you contribute, thank you — genuinely.
