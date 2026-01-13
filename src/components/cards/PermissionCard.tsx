@@ -16,6 +16,8 @@ export interface PermissionCardProps {
 }
 
 export const PermissionCard: React.FC<PermissionCardProps> = ({ data }) => {
+  const [expanded, setExpanded] = React.useState(false);
+
   const handleFormSubmit = async (submittedData: any) => {
     // support either an event or form data object
     if (submittedData && typeof submittedData.preventDefault === 'function') {
@@ -34,9 +36,26 @@ export const PermissionCard: React.FC<PermissionCardProps> = ({ data }) => {
   }));
 
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header" >{data.name.replace("_", " ")}</AccordionSummary>
-      <AccordionDetails><GenericForm fields={actionFields} onSubmit={handleFormSubmit} /></AccordionDetails>
+    <Accordion
+      expanded={expanded}
+      onChange={(_, isExpanded) => setExpanded(isExpanded)}
+      data-testid={`permission-card-${data._id}`}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls={`permission-panel-${data._id}-content`}
+        id={`permission-panel-${data._id}-header`}
+        data-testid={`permission-card-summary-${data._id}`}
+        aria-expanded={expanded}
+      >
+        {data.name.replace("_", " ")}
+      </AccordionSummary>
+      <AccordionDetails
+        data-testid={`permission-card-details-${data._id}`}
+        id={`permission-panel-${data._id}-content`}
+      >
+        <GenericForm fields={actionFields} onSubmit={handleFormSubmit} />
+      </AccordionDetails>
     </Accordion>
   );
 };

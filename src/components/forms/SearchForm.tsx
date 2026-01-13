@@ -11,13 +11,28 @@ type SearchFormProps = {
 };
 
 export const SearchForm: React.FC<SearchFormProps> = ({ title, data, handleFormSubmit }) => {
+  const [expanded, setExpanded] = React.useState(false);
+
   return (
-    <Container>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+    <Container data-testid="search-form-container">
+      <Accordion
+        expanded={expanded}
+        onChange={(_, isExpanded) => setExpanded(isExpanded)}
+        data-testid="search-form-accordion"
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          data-testid="search-form-accordion-summary"
+          aria-controls="search-form-content"
+          id="search-form-header"
+          aria-expanded={expanded}
+        >
           <Typography variant="h5">{title}</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          id="search-form-content"
+          data-testid="search-form-accordion-details"
+        >
           <GenericForm
             fields={data}
             onSubmit={handleFormSubmit}

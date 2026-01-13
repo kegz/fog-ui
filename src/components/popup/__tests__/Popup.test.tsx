@@ -29,6 +29,6 @@ test('Popup buttons render and callbacks fire; close icon calls onClose', async 
 	expect(btn1).toHaveBeenCalled();
 
 	// close button
-	await userEvent.click(screen.getByLabelText('close'));
+	await userEvent.click(screen.getByLabelText('Close dialog'));
 	expect(onClose).toHaveBeenCalled();
 });

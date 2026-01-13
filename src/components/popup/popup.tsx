@@ -20,17 +20,50 @@ interface PopupProps {
 
 export const Popup: React.FC<PopupProps> = ({ title, open, onClose, component, buttons }) => {
     return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" sx={{ '& .MuiDialog-paper': { borderRadius: '12px' } }} >
-            <DialogTitle sx={{ m: 0, p: 2 }}>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            fullWidth
+            maxWidth="sm"
+            sx={{ '& .MuiDialog-paper': { borderRadius: '12px' } }}
+            data-testid="popup-dialog"
+            aria-labelledby="popup-dialog-title"
+            aria-describedby="popup-dialog-content"
+        >
+            <DialogTitle
+                sx={{ m: 0, p: 2 }}
+                id="popup-dialog-title"
+                data-testid="popup-dialog-title"
+            >
                 {title}
-                <IconButton aria-label="close" onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8, }} ><CloseIcon /></IconButton>
+                <IconButton
+                    aria-label="Close dialog"
+                    onClick={onClose}
+                    sx={{ position: 'absolute', right: 8, top: 8 }}
+                    data-testid="popup-close-button"
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogTitle>
 
-            <DialogContent><Box>{component}</Box></DialogContent>
+            <DialogContent
+                id="popup-dialog-content"
+                data-testid="popup-dialog-content"
+            >
+                <Box>{component}</Box>
+            </DialogContent>
 
-            <DialogActions>
+            <DialogActions data-testid="popup-dialog-actions">
                 {buttons?.map((button, index) => (
-                    <Button key={index} onClick={button.onClick} variant="contained">{button.text}</Button>
+                    <Button
+                        key={index}
+                        onClick={button.onClick}
+                        variant="contained"
+                        data-testid={`popup-action-button-${index}`}
+                        aria-label={button.text}
+                    >
+                        {button.text}
+                    </Button>
                 ))}
             </DialogActions>
         </Dialog>

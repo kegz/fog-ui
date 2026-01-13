@@ -21,8 +21,8 @@ test('UserGroupCard renders update and delete icons when allowed', async () => {
 	// icons present in summary text
 	expect(screen.getByText(/group one/i)).toBeInTheDocument();
 	// click the delete and update buttons to exercise handlers
-	const del = screen.getByLabelText('delete');
-	const upd = screen.getByLabelText('update');
+	const del = screen.getByLabelText('Delete group_one');
+	const upd = screen.getByLabelText('Edit group_one');
 	await userEvent.click(del);
 	await userEvent.click(upd);
 });

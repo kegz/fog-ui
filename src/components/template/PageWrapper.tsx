@@ -54,21 +54,49 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({ children, menuItems })
   ];
 
   return (
-    <Box sx={styles.root}>
-      <Drawer variant="permanent" sx={drawerStyles.root}>
-        <Toolbar>
-          <a href="/dashboard">
+    <Box sx={styles.root} data-testid="page-wrapper">
+      <Drawer
+        variant="permanent"
+        sx={drawerStyles.root}
+        data-testid="page-wrapper-drawer"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <Toolbar data-testid="page-wrapper-toolbar">
+          <a href="/dashboard" data-testid="page-wrapper-logo-link" aria-label="Go to dashboard">
             <Typography variant="h6">PRIMEQA LOGO</Typography>
           </a>
         </Toolbar>
 
-        <List>
+        <List
+          data-testid="page-wrapper-menu-list"
+          role="menu"
+          aria-label="Navigation menu"
+        >
           {Object.entries(resolvedMenu).map(([section, items], sectionIndex) => (
-            <Box key={sectionIndex} sx={{ mb: 2 }}>
-              <Typography>{section}</Typography>
+            <Box
+              key={sectionIndex}
+              sx={{ mb: 2 }}
+              data-testid={`page-wrapper-menu-section-${sectionIndex}`}
+              role="group"
+              aria-label={section}
+            >
+              <Typography data-testid={`page-wrapper-section-title-${sectionIndex}`}>
+                {section}
+              </Typography>
               {items.map((menu: MenuItem, index) => (
-                <ListItem key={index} disablePadding>
-                  <ListItemButton onClick={() => handleNavigation(menu)} sx={{ pl: 4 }}>
+                <ListItem
+                  key={index}
+                  disablePadding
+                  data-testid={`page-wrapper-menu-item-${menu.label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  <ListItemButton
+                    onClick={() => handleNavigation(menu)}
+                    sx={{ pl: 4 }}
+                    data-testid={`page-wrapper-menu-button-${menu.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    role="menuitem"
+                    aria-label={menu.label}
+                  >
                     <ListItemText primary={menu.label} />
                   </ListItemButton>
                 </ListItem>
@@ -78,12 +106,22 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({ children, menuItems })
         </List>
 
         <Box sx={{ flexGrow: 1 }} />
-        <GenericForm fields={selectProjectFormField} />
+        <Box data-testid="page-wrapper-project-selector">
+          <GenericForm fields={selectProjectFormField} />
+        </Box>
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 0, marginTop: "80px" }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 0, marginTop: "80px" }}
+        data-testid="page-wrapper-main-content"
+        role="main"
+        aria-label="Main content"
+      >
         <Topbar pageTitle={pageTitle} />
-        <Box sx={{ flexGrow: 1, p: 0, marginTop: "0px" }}>{children}</Box>
+        <Box sx={{ flexGrow: 1, p: 0, marginTop: "0px" }}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

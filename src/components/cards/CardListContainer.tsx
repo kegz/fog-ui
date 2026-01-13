@@ -17,9 +17,20 @@ interface CardListContainerProps {
 
 export const CardListContainer: React.FC<CardListContainerProps> = ({ cards }) => {
     return (
-        <Grid container spacing={3} justifyContent="center">
+        <Grid
+            container
+            spacing={3}
+            justifyContent="center"
+            data-testid="card-list-container"
+            role="list"
+            aria-label="Card list"
+        >
             {cards.map((card) => (
-                <Grid key={card.id}>
+                <Grid
+                    key={card.id}
+                    data-testid={`card-list-item-${card.id}`}
+                    role="listitem"
+                >
                     <CardView
                         title={card.title ? card.title : null}
                         description={card.description}

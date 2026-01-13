@@ -17,15 +17,51 @@ export const Topbar: React.FC<TopBarProps> = ({ pageTitle }) => {
     };
 
     return (
-        <AppBar position="absolute" style={{ width: "calc(100vw - 300px)", left: "300px" }}>
-            <Toolbar sx={{ justifyContent: 'space-between' }}>
-                <Typography variant="h6" component="div">
+        <AppBar
+            position="absolute"
+            style={{ width: "calc(100vw - 300px)", left: "300px" }}
+            data-testid="topbar"
+            role="banner"
+        >
+            <Toolbar
+                sx={{ justifyContent: 'space-between' }}
+                data-testid="topbar-toolbar"
+            >
+                <Typography
+                    variant="h6"
+                    component="div"
+                    data-testid="topbar-title"
+                    aria-label={`Current page: ${pageTitle}`}
+                >
                     {pageTitle}
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Button variant="contained" onClick={handleAdminClick}>Admin</Button>
-                    <Button variant="contained" color="error" onClick={handleLogout}>Log Out</Button>
-                    <Avatar />
+                <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                    data-testid="topbar-actions"
+                    role="toolbar"
+                    aria-label="User actions"
+                >
+                    <Button
+                        variant="contained"
+                        onClick={handleAdminClick}
+                        data-testid="topbar-admin-button"
+                        aria-label="Go to admin configuration"
+                    >
+                        Admin
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleLogout}
+                        data-testid="topbar-logout-button"
+                        aria-label="Log out of application"
+                    >
+                        Log Out
+                    </Button>
+                    <Avatar
+                        data-testid="topbar-avatar"
+                        aria-label="User avatar"
+                    />
                 </Box>
             </Toolbar>
         </AppBar>

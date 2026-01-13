@@ -32,11 +32,26 @@ export const PopUpForm: React.FC<PopUpFormProps> = ({ suitesFormFields, onSubmit
 
   return (
     <>
-
-      <Button onClick={handleCreateOpen}>{buttonText}</Button>
-      <Popup title={title} open={isCreateProjectPopupOpen} onClose={handleCreateClose} component={
-        <GenericForm fields={suitesFormFields} onSubmit={handleCreateSave} submitButtonText={submitText} />
-      } />
+      <Button
+        onClick={handleCreateOpen}
+        data-testid="popup-form-trigger-button"
+        aria-label={buttonText}
+        aria-haspopup="dialog"
+      >
+        {buttonText}
+      </Button>
+      <Popup
+        title={title}
+        open={isCreateProjectPopupOpen}
+        onClose={handleCreateClose}
+        component={
+          <GenericForm
+            fields={suitesFormFields}
+            onSubmit={handleCreateSave}
+            submitButtonText={submitText}
+          />
+        }
+      />
     </>
   );
 };

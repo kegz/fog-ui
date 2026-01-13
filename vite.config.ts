@@ -27,5 +27,8 @@ export default defineConfig({
 		globals: true,
 		setupFiles: 'src/setupTests.ts',
 		include: ['src/**/*.test.{ts,tsx}'],
+		threads: true,
+		maxThreads: 8,
+		minThreads: 1,
 	}
 });

@@ -25,14 +25,53 @@ export const GenericList: React.FC<GenericListProps> = ({ items }) => {
         }
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent, link?: string) => {
+        if ((event.key === 'Enter' || event.key === ' ') && link) {
+            event.preventDefault();
+            handleItemClick(link);
+        }
+    };
+
     return (
-        <List>
+        <List
+            data-testid="generic-list"
+            role="list"
+            aria-label="Navigation list"
+        >
             {items.map((item) => (
-                <ListItem key={item.id} disablePadding onClick={() => handleItemClick(item.link)}>
-                    <ListItemButton component={item.link ? 'a' : 'div'} href={item.link} disabled={!item.link}>
-                        {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : null}
-                        <ListItemText primary={item.title} />
-                        {item.link && <ArrowForwardIosIcon />}
+                <ListItem
+                    key={item.id}
+                    disablePadding
+                    onClick={() => handleItemClick(item.link)}
+                    data-testid={`list-item-${item.id}`}
+                >
+                    <ListItemButton
+                        component={item.link ? 'a' : 'div'}
+                        href={item.link}
+                        disabled={!item.link}
+                        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => handleKeyDown(e, item.link)}
+                        data-testid={`list-item-button-${item.id}`}
+                        aria-label={item.title}
+                        role="listitem"
+                    >
+                        {item.icon ? (
+                            <ListItemIcon
+                                data-testid={`list-item-icon-${item.id}`}
+                                aria-hidden="true"
+                            >
+                                {item.icon}
+                            </ListItemIcon>
+                        ) : null}
+                        <ListItemText
+                            primary={item.title}
+                            data-testid={`list-item-text-${item.id}`}
+                        />
+                        {item.link && (
+                            <ArrowForwardIosIcon
+                                aria-hidden="true"
+                                data-testid={`list-item-arrow-${item.id}`}
+                            />
+                        )}
                     </ListItemButton>
                 </ListItem>
             ))}

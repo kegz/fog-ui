@@ -12,7 +12,7 @@ test('FilterFormCard calls onChange and handles errors', async () => {
 	// open accordion then submit
 	const summary = screen.getByRole('button', { name: /filter one/i });
 	await userEvent.click(summary);
-	const btn = await screen.findByRole('button', { name: /search/i });
+	const btn = await screen.findByText('Search');
 	await userEvent.click(btn);
 
 	expect(onChange).toHaveBeenCalled();
@@ -27,7 +27,7 @@ test('FilterFormCard logs when onChange throws', async () => {
 
 	const summary = screen.getByRole('button', { name: /filter two/i });
 	await userEvent.click(summary);
-	const btn = await screen.findByRole('button', { name: /search/i });
+	const btn = await screen.findByText('Search');
 	await userEvent.click(btn);
 
 	expect(spy).toHaveBeenCalled();

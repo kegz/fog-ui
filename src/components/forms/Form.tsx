@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   TextField, Button, Select, MenuItem,
   FormControl, InputLabel, Switch, FormControlLabel, Rating,
-  Box, Grid
+  Box, Grid, Typography
 } from '@mui/material';
 import { FormProps } from "./types";
 import { validationRules } from './validation';
@@ -16,7 +16,9 @@ export const GenericForm: React.FC<FormProps> = ({
   customButtons = [],
   initialValues = {}
 }) => {
-  const memoizedInitialValues = initialValues;
+  // Memoize initialValues based on content, not reference
+  const memoizedInitialValues = useMemo(() => initialValues, [JSON.stringify(initialValues)]);
+
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const [formData, setFormData] = useState<Record<string, any>>(() => {
     return fields.reduce((acc, field) => {
@@ -37,10 +39,14 @@ export const GenericForm: React.FC<FormProps> = ({
       return acc;
     }, {} as Record<string, any>);
 
-    if (JSON.stringify(formData) !== JSON.stringify(newFormData)) {
-      setFormData(newFormData);
-    }
-  }, [memoizedInitialValues, fields, formData]);
+    // Only update if the data has actually changed
+    setFormData((prev) => {
+      if (JSON.stringify(prev) !== JSON.stringify(newFormData)) {
+        return newFormData;
+      }
+      return prev;
+    });
+  }, [memoizedInitialValues]);
 
   // ✅ Fetch dynamic select/multiselect options and apply default values
   useEffect(() => {
@@ -63,35 +69,35 @@ export const GenericForm: React.FC<FormProps> = ({
             field.options = options;
 
             // ✅ Apply default value only if current value is empty
-            if (
-              field.defaultValue !== undefined &&
-              (formData[field.name] === "" ||
-                (Array.isArray(formData[field.name]) && formData[field.name].length === 0))
-            ) {
-              setFormData((prev) => ({
-                ...prev,
-                [field.name]: field.defaultValue,
-              }));
+            if (field.defaultValue !== undefined) {
+              setFormData((prev) => {
+                const currentValue = prev[field.name];
+                const isEmpty = currentValue === "" || (Array.isArray(currentValue) && currentValue.length === 0);
+                if (isEmpty) {
+                  return { ...prev, [field.name]: field.defaultValue };
+                }
+                return prev;
+              });
             }
           } catch (error) {
             console.error(`Failed to fetch options for ${field.name}:`, error);
           }
-        } else if (
-          field.defaultValue !== undefined &&
-          (formData[field.name] === "" ||
-            (Array.isArray(formData[field.name]) && formData[field.name].length === 0))
-        ) {
+        } else if (field.defaultValue !== undefined) {
           // ✅ Static options default assignment
-          setFormData((prev) => ({
-            ...prev,
-            [field.name]: field.defaultValue,
-          }));
+          setFormData((prev) => {
+            const currentValue = prev[field.name];
+            const isEmpty = currentValue === "" || (Array.isArray(currentValue) && currentValue.length === 0);
+            if (isEmpty) {
+              return { ...prev, [field.name]: field.defaultValue };
+            }
+            return prev;
+          });
         }
       }
     };
 
     fetchSelectOptions();
-  }, [fields, formData]);
+  }, [fields]);
 
   const validateField = (name: string, value: any) => {
     const field = fields.find((f) => f.name === name);
@@ -127,7 +133,14 @@ export const GenericForm: React.FC<FormProps> = ({
   };
 
   return (
-    <Box component="form" onSubmit={onSubmit ? handleSubmit : undefined} sx={{ width: "100%" }}>
+    <Box
+      component="form"
+      onSubmit={onSubmit ? handleSubmit : undefined}
+      sx={{ width: "100%" }}
+      data-testid="generic-form"
+      role="form"
+      aria-label="Form"
+    >
       <Grid container spacing={2}>
         {fields.map((field) => {
           const gridSize = field.width === "half" ? 6 : 12;
@@ -156,6 +169,18 @@ export const GenericForm: React.FC<FormProps> = ({
                     helperText={errors[field.name] || ""}
                     onChange={(e) => handleChange(field.name, e.target.value, field.onChange)}
                     size="small"
+                    data-testid={`form-field-${field.name}`}
+                    inputProps={{
+                      'data-testid': `form-input-${field.name}`,
+                      'aria-label': field.label,
+                      'aria-required': field.required,
+                      'aria-invalid': Boolean(errors[field.name]),
+                      'aria-describedby': errors[field.name] ? `${field.name}-error` : undefined,
+                    }}
+                    FormHelperTextProps={{
+                      id: `${field.name}-error`,
+                      role: 'alert',
+                    }}
                   />
                 </Grid>
               );
@@ -163,17 +188,28 @@ export const GenericForm: React.FC<FormProps> = ({
             case "select":
               return (
                 <Grid size={gridSize} key={field.name}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>{field.label}</InputLabel>
+                  <FormControl fullWidth size="small" data-testid={`form-control-${field.name}`}>
+                    <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                     <Select
                       required={field.required}
                       value={formData[field.name] || ""}
                       onChange={(e) => handleChange(field.name, e.target.value, field.onChange)}
                       disabled={field.disabled}
                       error={Boolean(errors[field.name])}
+                      data-testid={`form-select-${field.name}`}
+                      labelId={`${field.name}-label`}
+                      inputProps={{
+                        'aria-label': field.label,
+                        'aria-required': field.required,
+                        'aria-invalid': Boolean(errors[field.name]),
+                      }}
                     >
                       {field.options?.map((option, index) => (
-                        <MenuItem key={index} value={option.value}>
+                        <MenuItem
+                          key={index}
+                          value={option.value}
+                          data-testid={`form-option-${field.name}-${option.value}`}
+                        >
                           {option.label}
                         </MenuItem>
                       ))}
@@ -185,8 +221,8 @@ export const GenericForm: React.FC<FormProps> = ({
             case "multiselect":
               return (
                 <Grid size={gridSize} key={field.name}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>{field.label}</InputLabel>
+                  <FormControl fullWidth size="small" data-testid={`form-control-${field.name}`}>
+                    <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                     <Select
                       multiple
                       required={field.required}
@@ -194,6 +230,14 @@ export const GenericForm: React.FC<FormProps> = ({
                       onChange={(e) => handleChange(field.name, e.target.value, field.onChange)}
                       disabled={field.disabled}
                       error={Boolean(errors[field.name])}
+                      data-testid={`form-multiselect-${field.name}`}
+                      labelId={`${field.name}-label`}
+                      inputProps={{
+                        'aria-label': field.label,
+                        'aria-required': field.required,
+                        'aria-invalid': Boolean(errors[field.name]),
+                        'aria-multiselectable': true,
+                      }}
                       renderValue={(selected: string[]) =>
                         selected
                           .map((val) => {
@@ -204,7 +248,11 @@ export const GenericForm: React.FC<FormProps> = ({
                       }
                     >
                       {field.options?.map((option, index) => (
-                        <MenuItem key={index} value={option.value}>
+                        <MenuItem
+                          key={index}
+                          value={option.value}
+                          data-testid={`form-option-${field.name}-${option.value}`}
+                        >
                           {option.label}
                         </MenuItem>
                       ))}
@@ -223,9 +271,16 @@ export const GenericForm: React.FC<FormProps> = ({
                         onChange={(e) =>
                           handleChange(field.name, e.target.checked, field.onChange)
                         }
+                        data-testid={`form-switch-${field.name}`}
+                        inputProps={{
+                          'aria-label': field.label,
+                          'aria-checked': formData[field.name] || false,
+                          role: 'switch',
+                        }}
                       />
                     }
                     label={field.label}
+                    data-testid={`form-switch-label-${field.name}`}
                   />
                 </Grid>
               );
@@ -233,10 +288,17 @@ export const GenericForm: React.FC<FormProps> = ({
             case "rating":
               return (
                 <Grid size={gridSize} key={field.name}>
-                  <Rating
-                    value={formData[field.name] ?? 0}
-                    onChange={(_, v) => handleChange(field.name, v, field.onChange)}
-                  />
+                  <Box data-testid={`form-rating-container-${field.name}`}>
+                    <Typography component="legend" id={`${field.name}-rating-label`}>
+                      {field.label}
+                    </Typography>
+                    <Rating
+                      value={formData[field.name] ?? 0}
+                      onChange={(_, v) => handleChange(field.name, v, field.onChange)}
+                      data-testid={`form-rating-${field.name}`}
+                      aria-labelledby={`${field.name}-rating-label`}
+                    />
+                  </Box>
                 </Grid>
               );
 
@@ -246,19 +308,35 @@ export const GenericForm: React.FC<FormProps> = ({
         })}
       </Grid>
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }} data-testid="form-actions">
         {onCancel && (
-          <Button type="button" variant="outlined" onClick={onCancel}>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={onCancel}
+            data-testid="form-cancel-button"
+            aria-label="Cancel form"
+          >
             {cancelButtonText}
           </Button>
         )}
         {onSubmit && (
-          <Button type="submit" variant="contained">
+          <Button
+            type="submit"
+            variant="contained"
+            data-testid="form-submit-button"
+            aria-label="Submit form"
+          >
             {submitButtonText}
           </Button>
         )}
         {customButtons.map((btn, i) => (
-          <Button key={i} {...btn}>
+          <Button
+            key={i}
+            {...btn}
+            data-testid={`form-custom-button-${i}`}
+            aria-label={btn.text || `Custom button ${i + 1}`}
+          >
             {btn.text}
           </Button>
         ))}

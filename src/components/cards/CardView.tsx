@@ -11,21 +11,53 @@ interface CardViewProps {
 
 export const CardView: React.FC<CardViewProps> = ({ title, description, onViewClick, component }) => {
     return (
-        <Card sx={{ maxWidth: 345, borderRadius: '12px', boxShadow: 3 }}>
+        <Card
+            sx={{ maxWidth: 345, borderRadius: '12px', boxShadow: 3 }}
+            data-testid="card-view"
+            role="article"
+            aria-label={title || "Card"}
+        >
             {title ?
-                <CardContent><Typography variant="h5" component="div" fontWeight="bold">{title}</Typography></CardContent>
+                <CardContent data-testid="card-view-title-container">
+                    <Typography
+                        variant="h5"
+                        component="div"
+                        fontWeight="bold"
+                        data-testid="card-view-title"
+                    >
+                        {title}
+                    </Typography>
+                </CardContent>
                 : null}
 
             {description ?
-                <CardContent><Typography variant="body2" color="text.secondary">{description}</Typography></CardContent>
+                <CardContent data-testid="card-view-description-container">
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        data-testid="card-view-description"
+                    >
+                        {description}
+                    </Typography>
+                </CardContent>
                 : null}
 
             {component ?
-                <CardContent>{component}</CardContent>
+                <CardContent data-testid="card-view-component-container">
+                    {component}
+                </CardContent>
                 : null}
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
-                <Button variant="contained" onClick={onViewClick} sx={{ width: '100%' }}>View</Button>
+            <Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }} data-testid="card-view-actions">
+                <Button
+                    variant="contained"
+                    onClick={onViewClick}
+                    sx={{ width: '100%' }}
+                    data-testid="card-view-button"
+                    aria-label={`View ${title || 'details'}`}
+                >
+                    View
+                </Button>
             </Box>
         </Card>
     );

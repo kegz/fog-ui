@@ -47,7 +47,7 @@ export function DataTable<T extends { _id?: string | number }>({
     }
   }, [openRowId, data, onRowExpand]);
 
-  
+
   if (loading) {
     return <DataLoading columns={columns} />;
   } else if (data.length === 0) {
@@ -55,74 +55,85 @@ export function DataTable<T extends { _id?: string | number }>({
   }
 
   return (
-    <TableContainer component={Paper} sx={{ mb: 2 }}>
+    <TableContainer
+      component={Paper}
+      sx={{ mb: 2 }}
+      data-testid="data-table-container"
+      role="region"
+      aria-label={title || "Data table"}
+    >
       {title && (
-        <Typography variant="h6" sx={{ p: 2, pb: 0 }}>
+        <Typography
+          variant="h6"
+          sx={{ p: 2, pb: 0 }}
+          data-testid="data-table-title"
+          id="table-title"
+        >
           {title}
         </Typography>
       )}
 
-      <Table>
+      <Table aria-labelledby={title ? "table-title" : undefined} data-testid="data-table">
         <TableHeader
           columns={columns}
           hasNested={!!nestedConfig}
           hasActions={!!rowComponent}
         />
-        <TableBody>
+        <TableBody data-testid="data-table-body">
           {data.map((item) => {
-              const id = item._id ?? Math.random().toString();
-              const isOpen = openRowId === id;
+            const id = item._id ?? Math.random().toString();
+            const isOpen = openRowId === id;
 
-              return (
-                <React.Fragment key={id}>
-                  <DataRow
-                    item={item}
-                    id={id}
-                    isOpen={isOpen}
-                    onToggle={handleToggle}
-                    columns={columns}
-                    rowComponent={rowComponent}
-                    nestedConfig={nestedConfig}
-                  />
+            return (
+              <React.Fragment key={id}>
+                <DataRow
+                  item={item}
+                  id={id}
+                  isOpen={isOpen}
+                  onToggle={handleToggle}
+                  columns={columns}
+                  rowComponent={rowComponent}
+                  nestedConfig={nestedConfig}
+                />
 
-                  {rowExtraComponent && (
-                    <TableRow>
-                      <TableCell colSpan={columns.length + (nestedConfig ? 1 : 0)}>
-                        <Box sx={{ p: 1 }}>{rowExtraComponent(item)}</Box>
-                      </TableCell>
-                    </TableRow>
-                  )}
+                {rowExtraComponent && (
+                  <TableRow>
+                    <TableCell colSpan={columns.length + (nestedConfig ? 1 : 0)}>
+                      <Box sx={{ p: 1 }}>{rowExtraComponent(item)}</Box>
+                    </TableCell>
+                  </TableRow>
+                )}
 
-                  {nestedConfig && (
-                    <TableRow>
-                      <TableCell colSpan={columns.length + 1} sx={{ p: 0 }}>
-                        <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                          {nestedHeaderComponent && (
-                            <Box
-                              sx={{
-                                mb: 2,
-                                backgroundColor: "rgba(0,0,0,0.03)",
-                                borderRadius: 1,
-                                p: 2,
-                              }}
-                            >
-                              {nestedHeaderComponent(item)}
-                            </Box>
-                          )}
-                          <NestedTable
-                            columns={columns}
-                            nestedConfig={nestedConfig}
-                            isOpen={isOpen}
-                            item={item}
-                            emptyMessage={emptyMessage}
-                          />
-                        </Collapse>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </React.Fragment>
-              );
-            })
+                {nestedConfig && (
+                  <TableRow>
+                    <TableCell colSpan={columns.length + 1} sx={{ p: 0 }}>
+                      <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                        {nestedHeaderComponent && (
+                          <Box
+                            sx={{
+                              mb: 2,
+                              backgroundColor: "rgba(0,0,0,0.03)",
+                              borderRadius: 1,
+                              p: 2,
+                            }}
+                          >
+                            {nestedHeaderComponent(item)}
+                          </Box>
+                        )}
+                        <NestedTable
+                          columns={columns}
+                          nestedConfig={nestedConfig}
+                          isOpen={isOpen}
+                          item={item}
+                          emptyMessage={emptyMessage}
+                        />
+                      </Collapse>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
+            );
+          })
           }
         </TableBody>
       </Table>

@@ -16,10 +16,26 @@ test('AccordionList shows percentage when present and hides when null', () => {
 });
 import React from 'react';
 import { renderWithProviders, screen } from '../../../test/utils';
+import userEvent from '@testing-library/user-event';
 import { AccordionList } from '../AccordionList';
 
 test('AccordionList renders item title', () => {
 	const items = [{ id: '1', title: 'T', percentage: null, component: <div>inner</div> }];
 	renderWithProviders(<AccordionList items={items} />);
 	expect(screen.getByText('T')).toBeInTheDocument();
+});
+
+test('AccordionList expands and collapses accordion', async () => {
+	const items = [{ id: '1', title: 'Expandable', percentage: 75, component: <div>Content</div> }];
+	renderWithProviders(<AccordionList items={items} />);
+
+	// Click to expand
+	const summary = screen.getByText('Expandable');
+	await userEvent.click(summary);
+
+	// Content should be visible
+	expect(screen.getByText('Content')).toBeInTheDocument();
+
+	// Click to collapse
+	await userEvent.click(summary);
 });

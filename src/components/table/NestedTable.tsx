@@ -25,17 +25,29 @@ export function NestedTable<T>({
   }
 
   return (
-    <Table size="small">
+    <Table
+      size="small"
+      data-testid="nested-table"
+      aria-label="Nested data table"
+    >
       <TableHeader
         columns={nestedConfig.nestedColumns}
         hasNested={false}
         hasActions={false}
       />
-      <TableBody>
+      <TableBody data-testid="nested-table-body">
         {nestedData.map((nItem, idx) => (
-          <TableRow key={nItem._id || idx}>
+          <TableRow
+            key={nItem._id || idx}
+            data-testid={`nested-table-row-${nItem._id || idx}`}
+            role="row"
+          >
             {nestedConfig.nestedColumns.map((nCol) => (
-              <TableCell key={String(nCol.key)}>
+              <TableCell
+                key={String(nCol.key)}
+                data-testid={`nested-table-cell-${nItem._id || idx}-${String(nCol.key)}`}
+                role="cell"
+              >
                 {nCol.render ? nCol.render(nItem) : nItem[nCol.key]}
               </TableCell>
             ))}
