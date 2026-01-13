@@ -12,9 +12,26 @@ export default defineConfig({
 			fileName: (format) => (format === "es" ? "index.mjs" : "index.cjs"),
 		},
 		rollupOptions: {
-			// Ensure React and all React subpath imports (jsx runtime, dev runtime)
-			// are treated as externals so they are not bundled into the library.
-			external: [/^react($|\/)/, /^react-dom($|\/)/],
+			// Externalize all peer dependencies so they are not bundled into the library
+			external: [
+				/^react($|\/)/,
+				/^react-dom($|\/)/,
+				/^react-router-dom($|\/)/,
+				/^@emotion\/react($|\/)/,
+				/^@emotion\/styled($|\/)/,
+				/^@mui\/icons-material($|\/)/,
+				/^@mui\/material($|\/)/,
+				/^@mui\/system($|\/)/,
+				/^@reduxjs\/toolkit($|\/)/,
+				/^axios($|\/)/,
+				/^i18next($|\/)/,
+				/^react-hook-form($|\/)/,
+				/^react-i18next($|\/)/,
+				/^react-redux($|\/)/,
+				/^recharts($|\/)/,
+				/^redux($|\/)/,
+				/^zod($|\/)/,
+			],
 			output: {
 				exports: "named",
 			},
