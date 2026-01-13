@@ -5,7 +5,7 @@ export function DataLoading<T>({ columns }: Readonly<DataLoadingProps<T>>) {
   return (
     <TableRow data-testid="data-table-loading">
       <TableCell
-        colSpan={columns.length + 1}
+        colSpan={columns?.length ? columns.length + 1 : 1}
         align="center"
         data-testid="data-table-loading-cell"
         role="status"
