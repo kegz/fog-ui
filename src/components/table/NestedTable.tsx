@@ -20,7 +20,7 @@ export function NestedTable<T>({
 
   if (nestedConfig.loading) {
     return <DataLoading columns={columns} />;
-  } else if (nestedData.length === 0) {
+  } else if (!nestedData || nestedData.length === 0) {
     return <NoDataTableRow columns={columns} message={emptyMessage} />;
   }
 

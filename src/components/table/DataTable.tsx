@@ -47,11 +47,62 @@ export function DataTable<T extends { _id?: string | number }>({
     }
   }, [openRowId, data, onRowExpand]);
 
+  const isEmpty = !data || data.length === 0;
 
   if (loading) {
-    return <DataLoading columns={columns} />;
-  } else if (data.length === 0) {
-    return <NoDataTableRow columns={columns} message={emptyMessage} />;
+    return (
+      <TableContainer
+        component={Paper}
+        sx={{ mb: 2 }}
+        data-testid="data-table-container"
+        role="region"
+        aria-label={title || "Data table"}
+      >
+        {title && (
+          <Typography
+            variant="h6"
+            sx={{ p: 2, pb: 0 }}
+            data-testid="data-table-title"
+            id="table-title"
+          >
+            {title}
+          </Typography>
+        )}
+        <Table aria-labelledby={title ? "table-title" : undefined}>
+          <TableBody>
+            <DataLoading columns={columns} />
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <TableContainer
+        component={Paper}
+        sx={{ mb: 2 }}
+        data-testid="data-table-container"
+        role="region"
+        aria-label={title || "Data table"}
+      >
+        {title && (
+          <Typography
+            variant="h6"
+            sx={{ p: 2, pb: 0 }}
+            data-testid="data-table-title"
+            id="table-title"
+          >
+            {title}
+          </Typography>
+        )}
+        <Table aria-labelledby={title ? "table-title" : undefined}>
+          <TableBody>
+            <NoDataTableRow columns={columns} message={emptyMessage} />
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
   }
 
   return (

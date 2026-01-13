@@ -18,7 +18,7 @@ export const AccordionList: React.FC<AccordionListProps> = ({ items }) => {
 
     return (
         <Box data-testid="accordion-list" role="list" aria-label="Accordion list">
-            {items.map((item) => {
+            {items?.map((item) => {
                 const isExpanded = expandedId === item.id;
                 return (
                     <Accordion

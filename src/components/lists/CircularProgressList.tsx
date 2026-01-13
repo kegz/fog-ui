@@ -18,7 +18,7 @@ export const CircularProgressList: React.FC<CircularProgressListProps> = ({ item
             role="list"
             aria-label="Progress list"
         >
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
                 <Box
                     key={item.id}
                     sx={{ marginBottom: 2 }}

@@ -38,7 +38,7 @@ export const GenericList: React.FC<GenericListProps> = ({ items }) => {
             role="list"
             aria-label="Navigation list"
         >
-            {items.map((item) => (
+            {items?.map((item) => (
                 <ListItem
                     key={item.id}
                     disablePadding
